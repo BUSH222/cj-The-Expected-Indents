@@ -1,15 +1,14 @@
-class Image:
+from PIL import Image
+
+
+class Im:
     """Image Object"""
 
     def __init__(self, location) -> None:
         self.location = location
-        self.height = None
-        self.width = None
+        self.image = Image.open(location)
+        self.width, self.height = self.image.size
 
-    def get_height(self) -> int:
-        """Image Height"""
-        pass
-
-    def get_width(self) -> int:
-        """Image Width"""
+    def split(self):
+        """Splits the image into tiles of random width, random height"""
         pass

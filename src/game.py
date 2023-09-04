@@ -1,4 +1,9 @@
 class Game:
+    """
+    game class
+
+    2 functions and 3 data members
+    """
     def __init__(self, word, lives, letter):
         """
         Parameters
@@ -39,7 +44,7 @@ class Game:
         dis = ['_ ' for i in range(len(self.word))]
         if self.lives == 0:
             return self.lives, "".join(dis), "".join(badletter)
-        elif dis == letters:
+        if dis == letters:
             return self.lives, "".join(dis), "".join(badletter)
         if guessed_letter in letters and guessed_letter not in guessed_letters:
             i = letters.index(guessed_letter)

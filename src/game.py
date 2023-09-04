@@ -1,5 +1,5 @@
 class Game:
-    def __init__(self,word,lives,letter):
+    def __init__(self, word, lives, letter):
         """
         Parameters
 
@@ -16,9 +16,10 @@ class Game:
         None.
 
         """
-        self.word=word
-        self.lives=lives
-        self.letter=letter
+        self.word = word
+        self.lives = lives
+        self.letter = letter
+
     def gamelogic(self):
         """
         Parameters
@@ -37,9 +38,9 @@ class Game:
         letters = list(self.word)
         dis = ['_ ' for i in range(len(self.word))]
         if self.lives == 0:
-            return self.lives,"".join(dis),"".join(badletter)
+            return self.lives, "".join(dis), "".join(badletter)
         elif dis == letters:
-            return self.lives,"".join(dis),"".join(badletter)
+            return self.lives, "".join(dis), "".join(badletter)
         if guessed_letter in letters and guessed_letter not in guessed_letters:
             i = letters.index(guessed_letter)
             dis[i] = letters[i]
@@ -51,4 +52,4 @@ class Game:
             self.lives -= 1
             # call function to get image peices if there are none then break
             # else look for a random image piece and turn it into pure white or pure black
-        return self.lives,"".join(dis),"".join(badletter)
+        return self.lives, "".join(dis), "".join(badletter)

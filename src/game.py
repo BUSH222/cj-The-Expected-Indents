@@ -39,7 +39,7 @@ class Game:
         """
         letters = list(self.word)
         dis = ['_ ' for i in range(len(self.word))]
-
+        self.badletter = False
         if self.lives == 0:
             return self.lives, "".join(dis), self.badletter
         if dis == letters:

@@ -14,13 +14,14 @@ class Im:
 
     def split(self, rows, cols):
         """Splits the image into nxn tiles"""
-        tile_width, tile_height = self.width // rows, self.height // cols
+        tile_width = self.width // cols
+        tile_height = self.height // rows
 
         image_data = []
         for i in range(rows):
             for j in range(cols):
-                left = i * tile_width
-                upper = j * tile_height
+                left = j * tile_width
+                upper = i * tile_height
                 right = left + tile_width
                 lower = upper + tile_height
                 new_img = self.image.crop((left, upper, right, lower))
@@ -30,5 +31,4 @@ class Im:
                 new_img.save(data, "JPEG")
                 img_b64 = base64.b64encode(data.getvalue()).decode("utf-8")
                 image_data.append(img_b64)
-
         return image_data

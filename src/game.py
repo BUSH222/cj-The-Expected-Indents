@@ -1,7 +1,7 @@
 def gamelogic(word):
     """
     Parameters
-    
+
     ----------
     word : string
         Secret Code.

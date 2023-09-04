@@ -4,6 +4,7 @@ class Game:
 
     2 functions and 3 data members
     """
+    
     def __init__(self, word, lives, letter):
         """
         Parameters

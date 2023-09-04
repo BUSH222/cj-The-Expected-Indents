@@ -5,7 +5,7 @@ class Game:
     2 functions and 3 data members
     """
 
-    def __init__(self, word, lives):
+    def __init__(self, word, lives, guessed_letters, badletter):
         """
         Parameters
 
@@ -24,6 +24,8 @@ class Game:
         """
         self.word = word
         self.lives = lives
+        self.guessed_letters = guessed_letters
+        self.badletter = badletter
 
     def gamelogic(self, guessed_letter):
         """
@@ -35,23 +37,20 @@ class Game:
         -------
         lives(int),display(str),badletter(str)
         """
-        guessed_letters = []
-        badletter = []
         letters = list(self.word)
         dis = ['_ ' for i in range(len(self.word))]
+
         if self.lives == 0:
-            return self.lives, "".join(dis), "".join(badletter)
+            return self.lives, "".join(dis), self.badletter
         if dis == letters:
-            return self.lives, "".join(dis), "".join(badletter)
-        if guessed_letter in letters and guessed_letter not in guessed_letters:
+            return self.lives, "".join(dis), self.badletter
+        if guessed_letter in letters and guessed_letter not in self.guessed_letters:
             i = letters.index(guessed_letter)
             dis[i] = letters[i]
-            guessed_letters.append(guessed_letter)
-            # unhide part of image function
-        elif guessed_letter not in letters and guessed_letter in guessed_letters:
-            badletter.append(guessed_letter)
+            self.guessed_letters.append(guessed_letter)
+        elif guessed_letter not in letters and guessed_letter in self.guessed_letters:
+            self.badletter = True
         elif guessed_letter not in letters:
             self.lives -= 1
-            # call function to get image peices if there are none then break
-            # else look for a random image piece and turn it into pure white or pure black
-        return self.lives, "".join(dis), "".join(badletter)
+            self.badletter = True
+        return self.lives, "".join(dis), self.badletter

@@ -18,7 +18,6 @@ class Im:
         tile_height = self.height // rows
 
         image_data = []
-        tiles = 0
         for i in range(rows):
             for j in range(cols):
                 left = j * tile_width
@@ -32,8 +31,4 @@ class Im:
                 new_img.save(data, "JPEG")
                 img_b64 = base64.b64encode(data.getvalue()).decode("utf-8")
                 image_data.append(img_b64)
-
-                new_img.save(f"C:/Users/zikek/Desktop/tiles/tile_{tiles+1}.jpg")
-                tiles += 1
-
         return image_data

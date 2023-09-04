@@ -15,7 +15,7 @@ def gamelogic(word):
     dis = ['_ ' for i in range(len(word))]
     lives = 6
     while lives >= 0:
-        print(dis)
+        print("".join(dis))
         if lives == 0:
             state = 'lost'
             break

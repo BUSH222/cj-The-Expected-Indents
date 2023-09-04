@@ -5,7 +5,7 @@ class Game:
     2 functions and 3 data members
     """
 
-    def __init__(self, word, lives, letter):
+    def __init__(self, word, lives):
         """
         Parameters
 
@@ -24,23 +24,19 @@ class Game:
         """
         self.word = word
         self.lives = lives
-        self.letter = letter
 
-    def gamelogic(self):
+    def gamelogic(self, guessed_letter):
         """
         Parameters
 
         ----------
-        word : string
-            Secret Code.
+        self : word(str),lives(int),guessed_letter(string)
         Returns
         -------
-        state : string
-            if the user has won or lost.
+        lives(int),display(str),badletter(str)
         """
         guessed_letters = []
         badletter = []
-        guessed_letter = self.letter
         letters = list(self.word)
         dis = ['_ ' for i in range(len(self.word))]
         if self.lives == 0:

@@ -54,6 +54,3 @@ class Game:
             self.lives -= 1
             self.badletter = True
         return self.lives, "".join(dis), self.badletter
-            # call function to get image peices if there are none then break
-            # else look for a random image piece and turn it into pure white or pure black
-        return self.lives, "".join(dis), self.badletter

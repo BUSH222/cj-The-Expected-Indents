@@ -1,3 +1,9 @@
+import imageprocessor
+import requests
+import io
+from PIL import Image
+
+
 class Game:
     """
     game class
@@ -38,8 +44,11 @@ class Game:
         lives(int),display(str),badletter(str)
         """
         letters = list(self.word)
-        dis = ['_ ' for i in range(len(self.word))]
+        dis = ['_' for i in range(len(self.word))]
+        res = requests.get(f"https://loremflickr.com/1024/1024/{self.word}")
+        img = Image.open(io.BytesIO(res.content))
         self.badletter = False
+        img = imageprocessor.Im(self.image)
         if self.lives == 0:
             return self.lives, "".join(dis), self.badletter
         if dis == letters:
@@ -50,6 +59,10 @@ class Game:
             self.guessed_letters.append(guessed_letter)
         elif guessed_letter not in letters and guessed_letter in self.guessed_letters:
             self.badletter = True
+        elif guessed_letter not in letters:
+            self.lives -= 1
+            self.badletter = True
+        return self.lives, "".join(dis), self.badletter
         elif guessed_letter not in letters:
             self.lives -= 1
             self.badletter = True

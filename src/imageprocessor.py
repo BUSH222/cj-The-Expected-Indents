@@ -12,13 +12,21 @@ class Im:
         self.location = location
         self.image = Image.open(location)
         self.width, self.height = self.image.size
+        self.image_data = []
 
-    def split(self, rows):
-        """Splits the image into tiles of variable width"""
+    def split_image(self):
+        """Splits the image into tiles of variable width. Returns a list of tuples -> (image data, upper-left coordinates)
+
+        Args:
+            rows (int): Number of tile rows to be included
+
+        Returns:
+            list: Encoded image data
+        """
+        rows = 10
         min_width = self.width // 25
         tile_height = self.height // rows
 
-        image_data = []
         for i in range(rows):
             # define the remaining space in each row
             remaining = self.width
@@ -43,5 +51,28 @@ class Im:
                 data = io.BytesIO()
                 new_img.save(data, "JPEG")
                 img_b64 = base64.b64encode(data.getvalue()).decode("utf-8")
-                image_data.append(img_b64)
-        return image_data
+                self.image_data.append((img_b64, left, upper))
+        return self.image_data
+
+    def display_image(self):
+        """Returns the full image to be displayed"""
+        data = io.BytesIO()
+        self.image.save(data, "JPEG")
+
+        return base64.b64encode(data.getvalue()).decode("utf-8")
+
+    def place_tiles(self, word_length):
+        """Picks a random number of tiles to be placed on the game screen"""
+        num_tiles = len(self.image_data) // word_length
+        tiles = []
+
+        for _ in range(num_tiles):
+            tile = random.choice(self.image_data)
+            tiles.append(tile)
+            self.image_data.remove(tile)
+
+        return tiles
+
+    def remove_tiles(self):
+        """Permantly blackens some of the placed tiles on the game board"""
+        pass

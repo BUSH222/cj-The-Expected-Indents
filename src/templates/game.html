@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Game {{ uid }}{% endblock %}
+{% block content %}
+<div class="game-container">
+    <div class="top-bar">
+        <div class="lives">Lives: ❤️❤️❤️❤️ </div>
+        <div class="game-id">Game ID: {{ uid }}</div>
+    </div>
+
+    <div class="game-content">
+        <!-- On screens less than 600px wide, display elements sequentially -->
+        <div class="hint">
+            <h3>Hint:</h3>
+            <img src="https://picsum.photos/500/500" alt="Hint Image" class="hint-image">
+        </div>
+
+        <div class="word-and-form">
+            <div class="hangman-word">
+                <h3>Word:</h3>
+                <table>
+                    <tr>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                    <tr>
+                        <td>e</td>
+                        <td>l</td>
+                        <td>e</td>
+                        <td>p</td>
+                        <td>_</td>
+                        <td>a</td>
+                        <td>_</td>
+                        <td>t</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="user-input">
+                <form action="/guess" method="POST">
+                    <label for="letter">Enter a letter:</label>
+                    <input type="text" id="letter" name="letter" maxlength="1" required>
+                    <button type="submit">Guess</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

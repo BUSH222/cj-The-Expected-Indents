@@ -20,13 +20,7 @@ h1 {
 	margin-left: auto;
 	margin-right: auto;
 	padding: 75px 0;
-	width: 75%;
-}
-
-@media screen and (min-width: 600px) {
-	.welcome_image {
-		width: 500px;
-	}
+	width: 500px;
 }
 
 .start_button {
@@ -39,4 +33,119 @@ h1 {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Top bar for lives and game ID */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    /* background-color: #333;
+    color: #fff; */
+}
+
+/* Hint image */
+.hint {
+    float: left;
+    width: 45%;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Word and form */
+.word-and-form {
+    float: right;
+    width: 50%;
+    padding: 20px;
+}
+
+/* Clear floats
+.game-content::after {
+    content: "";
+    display: table;
+    clear: both;
+}*/
+
+/* Styles for the form input and button (adjust as needed) */
+.user-input label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.user-input input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.user-input button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.hint-image {
+	width: 90%;
+}
+
+/* Display on screens less than 600px wide */
+@media (max-width: 600px) {
+	.welcome_image {  /* in home.html */
+		width: 75%;
+	}
+
+    .game-id {
+		display: none;
+	}
+	.hint {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+		padding: 20px;
+	}
+	.hint-image {
+		width: 100%;
+	}
+	.word-and-form {
+		float: none;
+		width: 100%;
+		padding: 20px;
+	}
+}
+
+
+
+table {
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: none; /* Remove table borders */
+	padding: 10px;
+	text-align: center;
+}
+
+th {
+	font-size: 20px; /* Small font size */
+	color: rgba(0, 0, 0, 0.1); /* Faint black color */
+}
+
+td {
+	font-size: 40px; /* Small font size */
 }

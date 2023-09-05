@@ -1,8 +1,9 @@
 import random
 import secrets
 import string
+from io import BytesIO
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 
 import imageprocessor  # noqa: F401
 from game import Game
@@ -10,6 +11,7 @@ from game import Game
 app = Flask(__name__)
 
 games = dict()
+game_images = dict()
 
 
 def make_uid(length=6):
@@ -40,21 +42,36 @@ def game_start():
     rword = random_word()
     game_id = make_uid(games)
     games[game_id] = Game(rword, 6)
+    game_images[game_id] = None
     return render_template('game.html', uid=game_id, word_length=len(rword), lives='6')
 
 
 @app.route('/game/<game_id>')
 def make_move(game_id):
     """Process and make a move."""
-    global games
+    global games, game_images
+    assert game_id in games.keys()
     cgame = games[game_id]
     letter = request.data.strip()
     gameinfo = cgame.gamelogic(letter)
+    game_images[game_id] = gameinfo[3]  # PIL Image
     return {'word': gameinfo[1],
             'lives': gameinfo[0],
             'delta_lives': int(gameinfo[2])-1,
             'feedback': gameinfo[2],
-            'image': 'PLACEHOLDER'}
+            'image': f'{request.url_root}image/{game_id}'}
 
 
-app.run(debug=True, host='127.0.0.1', port=5000)
+@app.route('/image/<game_id>')
+def get_image(game_id):
+    """Return an image for the current game."""
+    global game_images
+    assert game_id in game_images.keys()
+    img_io = BytesIO()
+    pil_img = game_images[game_id]
+    pil_img.save(img_io, 'JPEG', quality=70)
+    img_io.seek(0)
+    return send_file(img_io, mimetype='image/jpeg')
+
+
+app.run(debug=True, host='127.0.0.1', port=9000)

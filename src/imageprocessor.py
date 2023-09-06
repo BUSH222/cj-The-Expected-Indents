@@ -50,7 +50,15 @@ class Im:
         return self.image_data
 
     def place_tiles(self, word, guessed_letter):
-        """Picks a random number of tiles to be placed on the game screen"""
+        """Picks a random number of tiles to be placed on the game screen
+
+        Args:
+            word (str): Full word /  Secret Code
+            guessed_letter (str): Guessed letter
+
+        Returns:
+            list: Merged image data with places tiles
+        """
         num_tiles = (len(self.image_data) * word.count(guessed_letter)) // len(word)
 
         for _ in range(num_tiles):

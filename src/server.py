@@ -38,12 +38,12 @@ def homepage():
     return render_template('home.html')
 
 
-@app.route('/game')
+@app.route('/start_game')
 def game_start():
     """Start the game."""
     global games
     rword = random_word()
-    game_id = make_uid(games)
+    game_id = make_uid()
     games[game_id] = Game(rword, 6)
     game_images[game_id] = None
     return render_template('game.html', uid=game_id, word_length=len(rword), lives='6')
@@ -56,7 +56,7 @@ def make_move(game_id):
     assert game_id in games.keys()
     cgame = games[game_id]
     letter = request.data.strip()
-    gameinfo = cgame.gamelogic(letter)
+    gameinfo = cgame.play(letter)
     game_images[game_id] = gameinfo[3]  # PIL Image
     return {'word': gameinfo[1],
             'lives': gameinfo[0],
@@ -77,4 +77,4 @@ def get_image(game_id):
     return send_file(img_io, mimetype='image/jpeg')
 
 
-app.run(debug=True, host='127.0.0.1', port=9000)
+app.run(debug=True, host='127.0.0.1', port=5000)

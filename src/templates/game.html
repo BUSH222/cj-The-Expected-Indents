@@ -3,20 +3,20 @@
 {% block content %}
 <div class="game-container">
     <div class="top-bar">
-        <div class="lives">Lives: ❤️❤️❤️❤️ </div>
-        <div class="game-id">Game ID: {{ uid }}</div>
+        <div class="lives">Lives: <span id="lives">❤️❤️❤️❤️❤️❤️❤️</span> </div>
+        <div class="game-id">Game ID: <span id="uid">{{ uid }}</span></div>
     </div>
 
     <div class="game-content">
-        <!-- On screens less than 600px wide, display elements sequentially -->
+        <!-- Left side -->
         <div class="hint">
             <h3>Hint:</h3>
-            <img src="https://picsum.photos/500/500" alt="Hint Image" class="hint-image">
+            <img src="https://picsum.photos/500/500" alt="Hint Image" class="hint-image" id="hint">
         </div>
 
+        <!-- Right Side -->
         <div class="word-and-form">
-            <div class="hangman-word">
-                <h3>Word:</h3>
+            <div class="hangman-word" id="wordtable">
                 <table>
                     <tr>
                         <th>1</th>
@@ -42,13 +42,21 @@
             </div>
 
             <div class="user-input">
-                <form action="/guess" method="POST">
+                <form id="guess-form">
                     <label for="letter">Enter a letter:</label>
                     <input type="text" id="letter" name="letter" maxlength="1" required>
+                    <br>
                     <button type="submit">Guess</button>
                 </form>
             </div>
+            <br>
+            <div id="warning">
+                <p style="display: none;">You have already guessed this letter!</p>
+            </div>
+
         </div>
     </div>
 </div>
+
+<script src="static/script_game.js"></script>
 {% endblock content %}

@@ -44,29 +44,30 @@ class Game:
         -------
         lives(int),display(str),badletter(str)
         """
-        res = requests.get(f"https://loremflickr.com/1024/1024/{self.word}")
+        res = requests.get(
+            f"https://loremflickr.com/1024/1024/{self.word}", timeout=10)
         img = Image.open(BytesIO(res.content))
-        Im1 = Im(img)
-        Im1.split_image()
+        imge = Im(img)
+        imge.split_image()
         letters = self.word
         self.badletter = False
         if self.lives == 0:
-            return self.lives, "".join(self.dis), self.badletter, Im1.image_new
+            return self.lives, "".join(self.dis), self.badletter, imge.image_new
         if self.dis == letters:
-            return self.lives, "".join(self.dis), self.badletter, Im1.image_new
+            return self.lives, "".join(self.dis), self.badletter, imge.image_new
         if guessed_letter in letters and guessed_letter not in self.guessed_letters:
             for j, lttr in enumerate(letters):
                 if guessed_letter == lttr:
                     self.dis[j] = letters[j]
-            Im1.place_tiles(letters, self.guessed_letters)
+            imge.place_tiles(letters, self.guessed_letters)
             self.guessed_letters.append(guessed_letter)
         if guessed_letter not in letters and guessed_letter in self.guessed_letters:
             self.badletter = True
         if guessed_letter not in letters:
             self.lives -= 1
             self.badletter = True
-            Im1.remove_tiles()
-        return self.lives, "".join(self.dis), self.badletter, Im1.image_new
+            Imge.remove_tiles()
+        return self.lives, "".join(self.dis), self.badletter, imge.image_new
         if guessed_letter not in letters:
             self.lives -= 1
             self.badletter = True

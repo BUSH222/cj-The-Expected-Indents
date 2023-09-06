@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Game {{ uid }}{% endblock %}
 {% block content %}
+
+<span id="word_length" style="display: none;">{{ word_length }}</span>
+
 <div class="game-container">
     <div class="top-bar">
-        <div class="lives">Lives: <span id="lives">❤️❤️❤️❤️❤️❤️❤️</span> </div>
+        <div class="lives">Lives: <span id="lives">{{ lives }}</span> </div>
         <div class="game-id">Game ID: <span id="uid">{{ uid }}</span></div>
     </div>
 
@@ -11,35 +14,12 @@
         <!-- Left side -->
         <div class="hint">
             <h3>Hint:</h3>
-            <img src="https://picsum.photos/500/500" alt="Hint Image" class="hint-image" id="hint">
+            <img src="/static/images/blank.png" alt="Hint Image" class="hint-image" id="hint">
         </div>
 
         <!-- Right Side -->
         <div class="word-and-form">
-            <div class="hangman-word" id="wordtable">
-                <table>
-                    <tr>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                        <th>6</th>
-                        <th>7</th>
-                        <th>8</th>
-                    </tr>
-                    <tr>
-                        <td>e</td>
-                        <td>l</td>
-                        <td>e</td>
-                        <td>p</td>
-                        <td>_</td>
-                        <td>a</td>
-                        <td>_</td>
-                        <td>t</td>
-                    </tr>
-                </table>
-            </div>
+            <div class="hangman-word" id="wordtable"></div>
 
             <div class="user-input">
                 <form id="guess-form">

@@ -7,7 +7,7 @@ let wordtable = document.getElementById("wordtable");
 let warning = document.getElementById("warning");
 let guessedletters = [];
 
-function foo(inputValue) {
+function guess_character(inputValue) {
 	console.log("You entered: " + inputValue);
 
 	// Check if the input is valid
@@ -64,8 +64,32 @@ function check_input(inputValue) {
 	}
 }
 
-function decorate_word(word) {
-	wordtable.innerHTML = word;
+function decorate_word(inputString) {
+    // Clear any existing content inside the table
+    wordtable.innerHTML = '';
+
+    // Create a new table element
+    const table = document.createElement("table");
+
+    // Split the input string into an array of characters
+    const characters = inputString.split('');
+
+    // Create the table rows
+    for (let i = 0; i < 2; i++) {
+        const row = document.createElement("tr");
+
+        // Create table cells (th elements for the first row, td elements for the second row)
+        for (let j = 0; j < characters.length; j++) {
+            const cell = i === 0 ? document.createElement("th") : document.createElement("td");
+            cell.textContent = characters[j];
+            row.appendChild(cell);
+        }
+
+        table.appendChild(row);
+    }
+
+    // Append the table to the wordtable element
+    wordtable.appendChild(table);
 }
 
 
@@ -73,6 +97,20 @@ function decorate_word(word) {
 document.getElementById('guess-form').addEventListener('submit', function (event) {
 	event.preventDefault(); // Prevent the default form submission
 	const inputValue = document.getElementById('letter').value;
-	foo(inputValue);
+	guess_character(inputValue);
 	document.getElementById('letter').value = '';
 });
+
+
+window.onload =  function () {
+	// Reset the guessedletters array
+	guessedletters = [];
+	// Reset the warning
+	warning.innerText = "";
+	// Reset the wordtable
+	word_length  = document.getElementById("word_length").innerText;
+	decorate_word("_".repeat(word_length));
+	// Reset the liveselement
+	lives = parseInt(document.getElementById("lives").innerText);
+	liveselement.innerText = lifesign.repeat(lives);
+}

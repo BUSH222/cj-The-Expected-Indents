@@ -70,7 +70,3 @@ class Game:
             self.badletter = True
             imge.remove_tiles()
         return self.lives, "".join(self.dis), self.badletter, imge.image_new
-        return self.lives, "".join(self.dis), self.badletter, imge.image_new
-            self.badletter = True
-            imge.remove_tiles()
-        return self.lives, "".join(self.dis), self.badletter, imge.image_new

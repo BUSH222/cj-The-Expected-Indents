@@ -11,5 +11,5 @@ document.addEventListener("keydown", function(event) {
 
 // This is how we go to the next page
 function next_page() {
-	window.location.href = '/start_game';
+	window.location.href = '/game';
 }

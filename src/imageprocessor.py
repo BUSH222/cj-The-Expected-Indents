@@ -54,7 +54,7 @@ class Im:
         for _ in range(num_tiles):
             if not self.image_data:
                 # return if no tiles remaining
-                return
+                break
             tile = random.choice(self.image_data)
             self.placed_tiles.append(tile)
             self.image_data.remove(tile)
@@ -69,7 +69,7 @@ class Im:
         for _ in range(n):
             if not self.placed_tiles:
                 # return if no placed tiles
-                return
+                break
             tile_to_remove = random.choice(self.placed_tiles)
             black_tile = Image.new("RGB", tile_to_remove[0].size, (0, 0, 0))
             self.image_new.paste(black_tile, (tile_to_remove[1], tile_to_remove[2]))

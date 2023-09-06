@@ -89,7 +89,7 @@ def make_move(game_id):
     global games, game_images
     assert game_id in games.keys()
     cgame = games[game_id]
-    letter = request.data.strip()
+    letter = request.data.strip().decode('utf-8')
     gameinfo = cgame.play(letter)
     game_images[game_id] = gameinfo[3]  # PIL Image
     return {'word': gameinfo[1],

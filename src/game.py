@@ -12,7 +12,7 @@ class Game:
     def __init__(self, word, lives):
         self.word = word
         self.lives = lives
-        self.guessed_letters = []
+        self.guessed_letters = set()
         self.wlen = len(word)
         self.dis = ["_"] * len(self.word)
         self.size = 1024

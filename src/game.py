@@ -27,7 +27,7 @@ class Game:
         res = requests.get(
             f"https://loremflickr.com/{self.size}/{self.size}/{self.word}", timeout=10
         )
-        im = Im(Image.open(BytesIO(self.res.content)))
+        im = Im(Image.open(BytesIO(res.content)))
         im.split_image()
         return im
 
@@ -46,7 +46,7 @@ class Game:
             for j, lttr in enumerate(self.word):
                 if guessed_letter == lttr:
                     self.dis[j] = self.word[j]
-            self.im.place_tiles(letters, guessed_letter)
+            self.im.place_tiles(self.word, guessed_letter)
 
         elif guessed_letter not in self.word:
             # Wrong letter guessed

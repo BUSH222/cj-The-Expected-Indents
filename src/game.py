@@ -5,7 +5,7 @@ class Game:
     2 functions and 3 data members
     """
 
-    def __init__(self, word, lives, guessed_letters, badletter):
+    def __init__(self, word, lives, guessed_letters):
         """
         Parameters
 
@@ -25,9 +25,9 @@ class Game:
         self.word = word
         self.lives = lives
         self.guessed_letters = guessed_letters
-        self.badletter = badletter
+        self.wlen = len(word)
 
-    def gamelogic(self, guessed_letter):
+    def play(self, guessed_letter):
         """
         Parameters
 
@@ -38,19 +38,20 @@ class Game:
         lives(int),display(str),badletter(str)
         """
         letters = list(self.word)
-        dis = ['_ ' for i in range(len(self.word))]
+        dis = ["_"] * len(self.word)
         self.badletter = False
         if self.lives == 0:
             return self.lives, "".join(dis), self.badletter
         if dis == letters:
             return self.lives, "".join(dis), self.badletter
         if guessed_letter in letters and guessed_letter not in self.guessed_letters:
-            i = letters.index(guessed_letter)
-            dis[i] = letters[i]
+            for j, lttr in enumerate(letters):
+                if guessed_letter == lttr:
+                    dis[j] = letters[j]
             self.guessed_letters.append(guessed_letter)
-        elif guessed_letter not in letters and guessed_letter in self.guessed_letters:
+        if guessed_letter not in letters and guessed_letter in self.guessed_letters:
             self.badletter = True
-        elif guessed_letter not in letters:
+        if guessed_letter not in letters:
             self.lives -= 1
             self.badletter = True
         return self.lives, "".join(dis), self.badletter

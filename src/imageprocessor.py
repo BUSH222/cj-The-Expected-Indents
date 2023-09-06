@@ -66,6 +66,9 @@ class Im:
         n = random.randint(len(self.placed_tiles) // 4, len(self.placed_tiles) // 2)
 
         for _ in range(n):
+            if not self.placed_tiles:
+                # return if no placed tiles
+                return
             tile_to_remove = random.choice(self.placed_tiles)
             black_tile = Image.new("RGB", tile_to_remove[0].size, (0, 0, 0))
             self.image_new.paste(black_tile, (tile_to_remove[1], tile_to_remove[2]))

@@ -1,8 +1,7 @@
 from io import BytesIO
-import requests
 from PIL import Image
+import requests
 from imageprocessor import Im
-
 
 class Game:
     """
@@ -66,9 +65,5 @@ class Game:
         if guessed_letter not in letters:
             self.lives -= 1
             self.badletter = True
-            Imge.remove_tiles()
+            imge.remove_tiles()
         return self.lives, "".join(self.dis), self.badletter, imge.image_new
-        if guessed_letter not in letters:
-            self.lives -= 1
-            self.badletter = True
-        return self.lives, "".join(dis), self.badletter

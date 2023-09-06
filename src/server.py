@@ -1,3 +1,4 @@
+import os
 import random
 import secrets
 import string
@@ -24,7 +25,9 @@ def make_uid(length=6):
 
 def random_word():
     """Generate a random word to be used in the game."""
-    with open('src/nouns-clear.txt') as nounfile:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, 'src', 'nouns-clear.txt')
+    with open(file_path) as nounfile:
         rword = random.choice(nounfile.readlines()).strip()
     return rword
 

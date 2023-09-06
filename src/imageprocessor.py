@@ -52,6 +52,9 @@ class Im:
         num_tiles = (len(self.image_data) * word.count(guessed_letter)) // len(word)
 
         for _ in range(num_tiles):
+            if not self.image_data:
+                # return if no tiles remaining
+                return
             tile = random.choice(self.image_data)
             self.placed_tiles.append(tile)
             self.image_data.remove(tile)

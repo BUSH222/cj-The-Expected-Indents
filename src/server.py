@@ -68,7 +68,7 @@ def game_start():
     rword = random_word()
     game_id = make_uid()
     games[game_id] = Game(rword, 6)
-    game_images[game_id] = games[game_id].image.image_new
+    game_images[game_id] = games[game_id].im.image_new
     return render_template('game.html', uid=game_id, word_length=len(rword), lives='6')
 
 
@@ -89,7 +89,7 @@ def make_move(game_id):
     global games, game_images
     assert game_id in games.keys()
     cgame = games[game_id]
-    letter = request.data.strip()
+    letter = request.data.strip().decode('utf-8')
     gameinfo = cgame.play(letter)
     game_images[game_id] = gameinfo[3]  # PIL Image
     return {'word': gameinfo[1],

@@ -68,7 +68,7 @@ def game_start():
     rword = random_word()
     game_id = make_uid()
     games[game_id] = Game(rword, 6)
-    game_images[game_id] = games[game_id].image.image_new
+    game_images[game_id] = games[game_id].im.image_new
     return render_template('game.html', uid=game_id, word_length=len(rword), lives='6')
 
 

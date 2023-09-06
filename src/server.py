@@ -92,6 +92,7 @@ def make_move(game_id):
     letter = request.data.strip().decode('utf-8')
     gameinfo = cgame.play(letter)
     game_images[game_id] = gameinfo[3]  # PIL Image
+    print(f'Raw request data: {request.data}\nLetter: {letter}')  # Attention!
     return {'word': gameinfo[1],
             'lives': gameinfo[0],
             'delta_lives': int(gameinfo[2])-1,

@@ -12,7 +12,7 @@ function foo(inputValue) {
 
 	// Check if the input is valid
 	check = check_input(inputValue);
-	
+
 	if (check) {
 		guessedletters.push(inputValue);  // Add the entered letter to the guessedletters array
 		console.log(guessedletters);
@@ -76,4 +76,3 @@ document.getElementById('guess-form').addEventListener('submit', function (event
 	foo(inputValue);
 	document.getElementById('letter').value = '';
 });
-

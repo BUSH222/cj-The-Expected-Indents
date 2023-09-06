@@ -6,11 +6,9 @@ from PIL import Image
 class Im:
     """Image Object"""
 
-    def __init__(self, location) -> None:
-        self.location = location
-        self.image = Image.open(location)
+    def __init__(self, image) -> None:
+        self.image = image
         self.width, self.height = self.image.size
-
         self.image_new = Image.new("RGB", self.image.size, (255, 255, 255))
         self.placed_tiles = []
         self.image_data = []

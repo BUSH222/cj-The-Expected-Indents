@@ -35,6 +35,9 @@ class Game:
         self.guessed_letters = []
         self.wlen = len(word)
         self.dis = ["_"] * len(self.word)
+        self.res = requests.get(
+            f"https://loremflickr.com/1024/1024/{self.word}", timeout=10)
+        self.img = Image.open(BytesIO(self.res.content))
 
     def play(self, guessed_letter):
         """
@@ -46,10 +49,7 @@ class Game:
         -------
         lives(int),display(str),badletter(str)
         """
-        res = requests.get(
-            f"https://loremflickr.com/1024/1024/{self.word}", timeout=10)
-        img = Image.open(BytesIO(res.content))
-        imge = Im(img)
+        imge = Im(self.img)
         imge.split_image()
         letters = self.word
         self.badletter = False

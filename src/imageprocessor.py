@@ -16,13 +16,9 @@ class Im:
         self.image_data = []
 
     def split_image(self):
-        """
-        Splits the image into tiles of variable width.
-
-        Returns a list of tuples -> (Pillow object, upper-left coordinates)
-        """
+        """Splits the image into tiles of variable width"""
         rows = 32
-        min_width = self.width // 32
+        min_width = self.width // rows
         tile_height = self.height // rows
 
         for i in range(rows):
@@ -47,7 +43,6 @@ class Im:
 
                 # add cropped image and its coordinates to image_data
                 self.image_data.append((new_img, left, upper))
-        return self.image_data
 
     def place_tiles(self, word, guessed_letter):
         """Picks a random number of tiles to be placed on the game screen
@@ -55,9 +50,6 @@ class Im:
         Args:
             word (str): Full word /  Secret Code
             guessed_letter (str): Guessed letter
-
-        Returns:
-            list: Merged image data with places tiles
         """
         num_tiles = (len(self.image_data) * word.count(guessed_letter)) // len(word)
 
@@ -68,15 +60,13 @@ class Im:
 
         for tile in self.placed_tiles:
             self.image_new.paste(tile[0], (tile[1], tile[2]))
-        return self.image_new
 
     def remove_tiles(self):
         """Permantly blackens some of the placed tiles on the game board"""
-        n = random.randint(1, len(self.placed_tiles) // 2)
+        n = random.randint(len(self.placed_tiles) // 4, len(self.placed_tiles) // 2)
 
         for _ in range(n):
             tile_to_remove = random.choice(self.placed_tiles)
             black_tile = Image.new("RGB", tile_to_remove[0].size, (0, 0, 0))
             self.image_new.paste(black_tile, (tile_to_remove[1], tile_to_remove[2]))
             self.placed_tiles.remove(tile_to_remove)
-        return self.image_new

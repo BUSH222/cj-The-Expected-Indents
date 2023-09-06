@@ -45,17 +45,13 @@ class Game:
         if dis == letters:
             return self.lives, "".join(dis), self.badletter
         if guessed_letter in letters and guessed_letter not in self.guessed_letters:
-            for j, w in enumerate(letters):
-                if guessed_letter == w:
+            for j, lttr in enumerate(letters):
+                if guessed_letter == lttr:
                     dis[j] = letters[j]
             self.guessed_letters.append(guessed_letter)
-        elif guessed_letter not in letters and guessed_letter in self.guessed_letters:
+        if guessed_letter not in letters and guessed_letter in self.guessed_letters:
             self.badletter = True
-        elif guessed_letter not in letters:
-            self.lives -= 1
-            self.badletter = True
-        return self.lives, "".join(dis), self.badletter
-        elif guessed_letter not in letters:
+        if guessed_letter not in letters:
             self.lives -= 1
             self.badletter = True
         return self.lives, "".join(dis), self.badletter

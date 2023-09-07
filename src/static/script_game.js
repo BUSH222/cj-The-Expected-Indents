@@ -6,17 +6,19 @@ let imageelement = document.getElementById("hint");
 let wordtable = document.getElementById("wordtable");
 let warning = document.getElementById("warning");
 let guessedletters = [];
+let lives = 0;
+let cache_busting = 0;
 
-function guess_character(inputValue) {
-	console.log("You entered: " + inputValue);
+function guess_character(guessedLetter) {
+	console.log("You entered: " + guessedLetter);
 
 	// Check if the input is valid
-	check = check_input(inputValue);
+	check = check_input(guessedLetter);
 
 	if (check) {
-		guessedletters.push(inputValue);  // Add the entered letter to the guessedletters array
+		guessedletters.push(guessedLetter);  // Add the entered letter to the guessedletters array
 		console.log(guessedletters);
-		fetch("/game/" + uid)  // fetch the game data
+		fetch(`/guess/${uid}/${guessedLetter}`) // Send a GET request to the API endpoint
 			.then(response => response.json())
 			.then(data => {
 				/*
@@ -30,8 +32,19 @@ function guess_character(inputValue) {
 
 				// Extract data from the JSON response
 				const word = data.word;
-				const lives = data.lives;
+				const lives_ = data.lives;
+				const deltalives = data.delta_lives;
+				const feedback = data.feedback;
 				const image = data.image;
+
+				console.log(`lives: ${lives_}\ndeltalives: ${deltalives}, \nfeedback: ${feedback}`);
+
+				if (lives + deltalives == lives_) {
+					lives = lives_;
+				}else {
+					alert(`lives: ${lives}, lives_: ${lives_}, deltalives: ${deltalives}`);
+					// window.location.reload();
+				}
 
 				// Update the wordtable by decorating the word
 				decorate_word(word);
@@ -39,8 +52,10 @@ function guess_character(inputValue) {
 				// Update liveselement with lifesigns
 				liveselement.innerText = lifesign.repeat(lives);
 
+				// Update the warning
+
 				// Update the imageelement's src attribute
-				imageelement.src = image;
+				imageelement.src = `${image}?${cache_busting++}`
 			})
 			.catch(error => {
 				console.error("Error fetching game data:", error);
@@ -48,14 +63,14 @@ function guess_character(inputValue) {
 	}
 }
 
-function check_input(inputValue) {
-	if (guessedletters.includes(inputValue)) {
+function check_input(guessedLetter) {
+	if (guessedletters.includes(guessedLetter)) {
 		warning.innerText = "You already guessed this letter!";
 		return false;
-	}else if (inputValue.length != 1) {
+	}else if (guessedLetter.length != 1) {
 		warning.innerText = "Please enter a single letter!";
 		return false;
-	}else if (!inputValue.match(/[a-z]/i)) {
+	}else if (!guessedLetter.match(/[a-z]/i)) {
 		warning.innerText = "Please enter a valid letter!";
 		return false;
 	}else {
@@ -74,19 +89,19 @@ function decorate_word(inputString) {
     // Split the input string into an array of characters
     const characters = inputString.split('');
 
-    // Create the table rows
-    for (let i = 0; i < 2; i++) {
-        const row = document.createElement("tr");
 
-        // Create table cells (th elements for the first row, td elements for the second row)
-        for (let j = 0; j < characters.length; j++) {
-            const cell = i === 0 ? document.createElement("th") : document.createElement("td");
-            cell.textContent = characters[j];
-            row.appendChild(cell);
-        }
-
-        table.appendChild(row);
-    }
+	const row1 = document.createElement("tr");
+	const row2 = document.createElement("tr");
+	for (let j = 0; j < characters.length; j++) {
+		const cell1 = document.createElement("th");
+		const cell2 = document.createElement("td");
+		cell1.textContent = `${j+1}`;
+		cell2.textContent = characters[j];
+		row1.appendChild(cell1);
+		row2.appendChild(cell2);
+	}
+	table.appendChild(row1);
+	table.appendChild(row2);
 
     // Append the table to the wordtable element
     wordtable.appendChild(table);
@@ -96,8 +111,8 @@ function decorate_word(inputString) {
 // Add an event listener to the form
 document.getElementById('guess-form').addEventListener('submit', function (event) {
 	event.preventDefault(); // Prevent the default form submission
-	const inputValue = document.getElementById('letter').value;
-	guess_character(inputValue);
+	const guessedLetter = document.getElementById('letter').value;
+	guess_character(guessedLetter);
 	document.getElementById('letter').value = '';
 });
 

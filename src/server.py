@@ -66,14 +66,15 @@ def game_start():
     """
     global games, game_images
     rword = random_word()
+    print(rword)
     game_id = make_uid()
     games[game_id] = Game(rword, 6)
     game_images[game_id] = games[game_id].im.image_new
     return render_template('game.html', uid=game_id, word_length=len(rword), lives='6')
 
 
-@app.route('/game/<game_id>')
-def make_move(game_id):
+@app.route('/guess/<game_id>/<letter>')
+def make_move(game_id, letter):
     """Process and make a move.
 
     Args:
@@ -89,14 +90,15 @@ def make_move(game_id):
     global games, game_images
     assert game_id in games.keys()
     cgame = games[game_id]
-    letter = request.data.strip().decode('utf-8')
     gameinfo = cgame.play(letter)
     game_images[game_id] = gameinfo[3]  # PIL Image
-    return {'word': gameinfo[1],
-            'lives': gameinfo[0],
-            'delta_lives': int(gameinfo[2])-1,
-            'feedback': gameinfo[2],
-            'image': f'{request.url_root}image/{game_id}'}
+    return {
+        'word': gameinfo[1],
+        'lives': gameinfo[0],
+        'delta_lives': -1 if gameinfo[2] else 0,
+        'feedback': not gameinfo[2],
+        'image': f'{request.url_root}image/{game_id}'
+    }
 
 
 @app.route('/image/<game_id>')

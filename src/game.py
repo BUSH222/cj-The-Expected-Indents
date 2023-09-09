@@ -69,7 +69,7 @@ class Game:
         x = sum([letter in self.guessed_letters for letter in self.word])/len(self.word)
         k = (self.u-self.m)/self.m
         coeff = self.m / (k-1)
-        self.reward = int(coeff * (k**(2*x) - 1))
+        self.reward = int(coeff * (k**(2*x) - 1)) + 1
 
     def play(self, guessed_letter):
         """Play the game by guessing a letter.
@@ -86,13 +86,6 @@ class Game:
             }
         """
         # repeated letters won't come; handled in frontend
-        if not self.alive:
-            return {
-                'word': self.word,
-                'lives': 0,
-                'delta_lives': 0,
-                'feedback': False,
-            }
         if guessed_letter in self.word:
             feedback = True
         else:
@@ -104,6 +97,14 @@ class Game:
 
         self.guessed_letters.add(guessed_letter)
         self._calulate_reward()
+
+        if not self.alive:
+            return {
+                'word': self.word,
+                'lives': 0,
+                'delta_lives': -1,
+                'feedback': False,
+            }
         return {
             'word': self._construct_word_with_underscores(),  # 'e_e_h_n_'
             'lives': self.lives,  # 5

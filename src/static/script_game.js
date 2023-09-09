@@ -35,27 +35,31 @@ function guess_character(guessedLetter) {
 				const lives_ = data.lives;
 				const deltalives = data.delta_lives;
 				const feedback = data.feedback;
-				const image = data.image;
 
-				console.log(`lives: ${lives_}\ndeltalives: ${deltalives}, \nfeedback: ${feedback}`);
+				// console.log(`lives: ${lives_}\ndeltalives: ${deltalives}, \nfeedback: ${feedback}`);
 
+
+				// Update the wordtable by decorating the word
+				decorate_word(word);
+
+				// Update the lives
 				if (lives + deltalives == lives_) {
 					lives = lives_;
 				}else {
 					alert(`lives: ${lives}, lives_: ${lives_}, deltalives: ${deltalives}`);
 					// window.location.reload();
 				}
-
-				// Update the wordtable by decorating the word
-				decorate_word(word);
-
-				// Update liveselement with lifesigns
 				liveselement.innerText = lifesign.repeat(lives);
 
-				// Update the warning
-
 				// Update the imageelement's src attribute
-				imageelement.src = `${image}?${cache_busting++}`
+				imageelement.src = `/image/${uid}?${cache_busting++}`
+
+				// Update the status
+				if (feedback) {
+					show_status("Correct Guess!");
+				}else {
+					show_status("Wrong Guess!");
+				}
 			})
 			.catch(error => {
 				console.error("Error fetching game data:", error);
@@ -128,4 +132,9 @@ window.onload =  function () {
 	// Reset the liveselement
 	lives = parseInt(document.getElementById("lives").innerText);
 	liveselement.innerText = lifesign.repeat(lives);
+}
+
+function show_status(message){
+	// TODO: implement this
+	alert(message);
 }

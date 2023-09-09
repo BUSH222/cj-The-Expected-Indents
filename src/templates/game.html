@@ -20,13 +20,13 @@
         <!-- Right Side -->
         <div class="word-and-form">
             <div class="hangman-word" id="wordtable">
-                <table>
+                <!-- <table>
                     <tr>
-                        <th>_</th>
-                        <th>_</th>
-                        <th>_</th>
-                        <th>_</th>
-                        <th>_</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
                     </tr>
                     <tr>
                         <td>_</td>
@@ -35,7 +35,7 @@
                         <td>_</td>
                         <td>_</td>
                     </tr>
-                </table>
+                </table> -->
             </div>
 
             <div class="user-input">
@@ -48,12 +48,20 @@
             </div>
             <br>
             <div id="warning">
-                <p style="display: none;">You have already guessed this letter!</p>
+                <!-- Warning message goes here -->
             </div>
-
+            <div id="feedback">
+                <!-- Feedback message goes here -->
+            </div>
         </div>
     </div>
+
 </div>
+
+<dialog id="winorlose">
+    <p id="winorlose-text">Some Text</p>
+    <button onclick="window.location.href = '/'">Play Again</button>
+</dialog>
 
 <script src="static/script_game.js"></script>
 {% endblock content %}

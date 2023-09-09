@@ -67,6 +67,6 @@ class Game:
         if self.lives == 0:
             # No more lives. Game Over!
             # TODO: return "game over" image
-            return self.lives, "".join(self.dis), badletter, self.im.image_new
+            return self.lives, self.word, badletter, self.im.image_new
 
         return self.lives, "".join(self.dis), badletter, self.im.image_new

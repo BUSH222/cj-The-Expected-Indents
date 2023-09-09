@@ -5,9 +5,13 @@ let liveselement = document.getElementById("lives");
 let imageelement = document.getElementById("hint");
 let wordtable = document.getElementById("wordtable");
 let warning = document.getElementById("warning");
+let modal = document.getElementById("winorlose");
+let modal_text = document.getElementById("winorlose-text");
+let feedback_text = document.getElementById("feedback");
 let guessedletters = [];
 let lives = 0;
 let cache_busting = 0;
+
 
 function guess_character(guessedLetter) {
 	console.log("You entered: " + guessedLetter);
@@ -35,27 +39,27 @@ function guess_character(guessedLetter) {
 				const lives_ = data.lives;
 				const deltalives = data.delta_lives;
 				const feedback = data.feedback;
-				const image = data.image;
 
-				console.log(`lives: ${lives_}\ndeltalives: ${deltalives}, \nfeedback: ${feedback}`);
+				// console.log(`lives: ${lives_}\ndeltalives: ${deltalives}, \nfeedback: ${feedback}`);
 
-				if (lives + deltalives == lives_) {
-					lives = lives_;
-				}else {
-					alert(`lives: ${lives}, lives_: ${lives_}, deltalives: ${deltalives}`);
-					// window.location.reload();
-				}
 
 				// Update the wordtable by decorating the word
 				decorate_word(word);
 
-				// Update liveselement with lifesigns
+				// Update the lives
+				if (lives + deltalives == lives_) {
+					lives = lives_;
+				} else {
+					alert(`lives: ${lives}, lives_: ${lives_}, deltalives: ${deltalives}`);
+					// window.location.reload();
+				}
 				liveselement.innerText = lifesign.repeat(lives);
 
-				// Update the warning
-
 				// Update the imageelement's src attribute
-				imageelement.src = `${image}?${cache_busting++}`
+				imageelement.src = `/image/${uid}?${cache_busting++}`
+
+				// Update the status
+				show_status(feedback, lives, word);
 			})
 			.catch(error => {
 				console.error("Error fetching game data:", error);
@@ -67,27 +71,27 @@ function check_input(guessedLetter) {
 	if (guessedletters.includes(guessedLetter)) {
 		warning.innerText = "You already guessed this letter!";
 		return false;
-	}else if (guessedLetter.length != 1) {
+	} else if (guessedLetter.length != 1) {
 		warning.innerText = "Please enter a single letter!";
 		return false;
-	}else if (!guessedLetter.match(/[a-z]/i)) {
+	} else if (!guessedLetter.match(/[a-z]/i)) {
 		warning.innerText = "Please enter a valid letter!";
 		return false;
-	}else {
+	} else {
 		warning.innerText = "";
 		return true;
 	}
 }
 
 function decorate_word(inputString) {
-    // Clear any existing content inside the table
-    wordtable.innerHTML = '';
+	// Clear any existing content inside the table
+	wordtable.innerHTML = '';
 
-    // Create a new table element
-    const table = document.createElement("table");
+	// Create a new table element
+	const table = document.createElement("table");
 
-    // Split the input string into an array of characters
-    const characters = inputString.split('');
+	// Split the input string into an array of characters
+	const characters = inputString.split('');
 
 
 	const row1 = document.createElement("tr");
@@ -95,7 +99,7 @@ function decorate_word(inputString) {
 	for (let j = 0; j < characters.length; j++) {
 		const cell1 = document.createElement("th");
 		const cell2 = document.createElement("td");
-		cell1.textContent = `${j+1}`;
+		cell1.textContent = `${j + 1}`;
 		cell2.textContent = characters[j];
 		row1.appendChild(cell1);
 		row2.appendChild(cell2);
@@ -103,8 +107,8 @@ function decorate_word(inputString) {
 	table.appendChild(row1);
 	table.appendChild(row2);
 
-    // Append the table to the wordtable element
-    wordtable.appendChild(table);
+	// Append the table to the wordtable element
+	wordtable.appendChild(table);
 }
 
 
@@ -117,15 +121,30 @@ document.getElementById('guess-form').addEventListener('submit', function (event
 });
 
 
-window.onload =  function () {
+window.onload = function () {
 	// Reset the guessedletters array
 	guessedletters = [];
 	// Reset the warning
 	warning.innerText = "";
 	// Reset the wordtable
-	word_length  = document.getElementById("word_length").innerText;
+	word_length = document.getElementById("word_length").innerText;
 	decorate_word("_".repeat(word_length));
 	// Reset the liveselement
 	lives = parseInt(document.getElementById("lives").innerText);
 	liveselement.innerText = lifesign.repeat(lives);
+}
+
+function show_status(feedback, lives, word) {
+	if (lives == 0) {
+		// Player has lost
+		modal_text.innerText = "You lose! The word was: " + word;
+		modal.showModal()
+	} else if (!word.includes("_")) {
+		// Player has won
+		modal_text.innerText = "You win!";
+		modal.showModal()
+	}
+
+	// Set the feedback text based on the value of 'feedback'
+	feedback_text.textContent = feedback ? "Correct guess!" : "Incorrect guess!";
 }

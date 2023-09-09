@@ -4,7 +4,7 @@ import secrets
 import string
 from io import BytesIO
 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, send_file
 
 import imageprocessor  # noqa: F401
 from game import Game
@@ -97,7 +97,6 @@ def make_move(game_id, letter):
         'lives': gameinfo[0],
         'delta_lives': -1 if gameinfo[2] else 0,
         'feedback': not gameinfo[2],
-        'image': f'{request.url_root}image/{game_id}'
     }
 
 

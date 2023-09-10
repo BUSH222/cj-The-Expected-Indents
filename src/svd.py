@@ -25,10 +25,10 @@ def scale(A):
 class SVDImage:
     """Class for image compression using SVD"""
 
-    def __init__(self, imageURL, size=512, verbose=True):
+    def __init__(self, word, size=512, verbose=True):
         self.size = size
-        self.imageURL = imageURL
-        self._fetch_image(imageURL)  # self.A is defined by this function
+        self.word = word
+        self._fetch_image(word)  # self.A is defined by this function
         if len(self.A.shape) != 3:
             raise ValueError("Image does not have 3 channels")
         # separating the R, G and B channels to 2D matrices
@@ -54,13 +54,13 @@ class SVDImage:
         S = np.diag(S)
         self.BU, self.BS, self.BV = U, S, V
 
-    def _fetch_image(self, imageURL):
+    def _fetch_image(self, word):
         """Fetch image from loremflickr API using word
 
         Args:
             word (str): Image search term
         """
-        res = requests.get(imageURL, timeout=10)
+        res = requests.get(f"https://loremflickr.com/512/512/{word}", timeout=10)
         image = Image.open(BytesIO(res.content))
         image = image.resize((self.size, self.size))
         self.A = np.array(image)

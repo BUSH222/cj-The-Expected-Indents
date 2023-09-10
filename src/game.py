@@ -1,4 +1,3 @@
-import json
 import os
 import random
 import secrets
@@ -31,13 +30,13 @@ class Game:
     """game class"""
 
     def __init__(self, lives=6):
-        self.word, self.imageURL = self._get_random_word()
+        self.word = self._get_random_word()
         # print(self.word)
         self.total_lives = lives  # const
         self.lives = lives
         self.guessed_letters = set()
         self.size = 512
-        self.image = SVDImage(self.imageURL, self.size)
+        self.image = SVDImage(self.word, self.size)
         self.alive = True
 
         self.punishment_mask = np.ones((self.size, self.size))
@@ -54,13 +53,11 @@ class Game:
         # but this is just a constant to calculate the reward
 
     def _get_random_word(self):
-        with open(os.path.dirname(__file__) + '/words.json') as f:
-            data = json.load(f)
-        words = list(data.keys())
-        chosen_word = random.choice(words)
-        pictures = data[chosen_word]
-        chosen_picture = random.choice(pictures)
-        return chosen_word, chosen_picture
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(script_dir, 'nouns-clear.txt')
+        with open(file_path) as nounfile:
+            rword = random.choice(nounfile.readlines()).strip()
+        return rword
 
     def _construct_word_with_underscores(self):
         ret = ''

@@ -29,3 +29,5 @@ toml==0.10.2
 urllib3==2.0.4
 virtualenv==20.24.5
 Werkzeug==2.3.7
+matplotlib==3.7.2
+numpy==1.25.2

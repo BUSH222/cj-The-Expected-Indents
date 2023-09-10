@@ -53,6 +53,11 @@ class Game:
         # but this is just a constant to calculate the reward
 
     def _get_random_word(self):
+        """Generate a random word from the wordlist
+
+        Returns:
+            a random word from nouns-clear.txt
+        """
         script_dir = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(script_dir, 'nouns-clear.txt')
         with open(file_path) as nounfile:
@@ -60,6 +65,13 @@ class Game:
         return rword
 
     def _construct_word_with_underscores(self):
+        """Transform a word into one with underscores based on guessed letters
+
+        Example: water -> _a_er
+
+        Returns:
+            self.word with underscores for letters not guessed
+        """
         ret = ''
         for letter in self.word:
             if letter in self.guessed_letters:
@@ -69,16 +81,20 @@ class Game:
         return ret
 
     def _calulate_reward(self):
-        # we used an exponential function to calculate the reward
-        # the reward is 0 when no letters are guessed
-        # the reward is self.m when half of the letters are guessed
-        # the reward is self.u when all letters are guessed
+        """Calculate and update the reward:
+
+        The reward is 0 when no letters are guessed
+        The reward is self.m when half of the letters are guessed
+        The reward is self.u when all letters are guessed
+
+        """
         x = sum([letter in self.guessed_letters for letter in self.word])/len(self.word)
         k = (self.u-self.m)/self.m
         coeff = self.m / (k-1)
         self.reward = int(coeff * (k**(2*x) - 1)) + 1
 
     def _calculate_punishment(self):
+        """Calculate the punishment"""
         subgrid_size = self.size // self.grid
 
         for i in range(self.grid):

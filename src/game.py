@@ -1,4 +1,5 @@
 import json
+import os
 import random
 import secrets
 import string
@@ -53,7 +54,7 @@ class Game:
         # but this is just a constant to calculate the reward
 
     def _get_random_word(self):
-        with open('words.json') as f:
+        with open(os.path.dirname(__file__) + '/words.json') as f:
             data = json.load(f)
         words = list(data.keys())
         chosen_word = random.choice(words)

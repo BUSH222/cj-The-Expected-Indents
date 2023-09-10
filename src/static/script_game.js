@@ -60,6 +60,8 @@ function guess_character(guessedLetter) {
 
 				// Update the status
 				show_status(feedback, lives, word);
+
+				document.getElementById("letter").focus();
 			})
 			.catch(error => {
 				console.error("Error fetching game data:", error);

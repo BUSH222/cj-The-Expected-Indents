@@ -88,14 +88,3 @@ class SVDImage:
         ).astype(np.uint8)
 
         return np.dstack((R_, G_, B_)).astype(type)
-
-
-# if __name__ == "__main__":
-#     import matplotlib.pyplot as plt
-
-#     a = SVDImage("https://rascalrides.com/wp-content/uploads/yvolution-balance-bike-being-ridden-indoors.jpg")
-    # a = SVDImage("https://5.imimg.com/data5/SELLER/Default/2022/3/WG/RT/YU/60884299/hs-bmx-ibc.jpg")
-    # print(type(a.A))
-    # print(a.A.shape)
-    # plt.imshow(a.A)
-    # plt.show()

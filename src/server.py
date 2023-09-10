@@ -66,7 +66,7 @@ def get_image(game_id):
     if cgame is None:
         return {'error': 'game does not exist'}
     img_io = BytesIO()
-    np_image = cgame.image.reduce(cgame.reward)
+    np_image = cgame.get_image()
     pil_img = Image.fromarray(np_image)
     pil_img.save(img_io, 'JPEG', quality=70)
     img_io.seek(0)

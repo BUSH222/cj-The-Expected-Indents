@@ -25,9 +25,10 @@ def scale(A):
 class SVDImage:
     """Class for image compression using SVD"""
 
-    def __init__(self, word, size=512, verbose=True):
+    def __init__(self, imageURL, size=512, verbose=True):
         self.size = size
-        self._fetch_image(word)  # self.A is defined by this function
+        self.imageURL = imageURL
+        self._fetch_image(imageURL)  # self.A is defined by this function
         if len(self.A.shape) != 3:
             raise ValueError("Image does not have 3 channels")
         # separating the R, G and B channels to 2D matrices
@@ -53,15 +54,16 @@ class SVDImage:
         S = np.diag(S)
         self.BU, self.BS, self.BV = U, S, V
 
-    def _fetch_image(self, word: str):
+    def _fetch_image(self, imageURL):
         """Fetch image from loremflickr API using word
 
         Args:
             word (str): Image search term
         """
-        URL = f"https://loremflickr.com/{self.size}/{self.size}/{word}"
-        res = requests.get(URL, timeout=10)
-        self.A = np.array(Image.open(BytesIO(res.content)))
+        res = requests.get(imageURL, timeout=10)
+        image = Image.open(BytesIO(res.content))
+        image = image.resize((self.size, self.size))
+        self.A = np.array(image)
 
     def reduce(self, terms, type=np.uint8):
         """Reduce the image to the specified number of terms
@@ -88,11 +90,12 @@ class SVDImage:
         return np.dstack((R_, G_, B_)).astype(type)
 
 
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
+# if __name__ == "__main__":
+#     import matplotlib.pyplot as plt
 
-    a = SVDImage("cat")
-    print(type(a.A))
-    print(a.A.shape)
-    plt.imshow(a.A)
-    plt.show()
+#     a = SVDImage("https://rascalrides.com/wp-content/uploads/yvolution-balance-bike-being-ridden-indoors.jpg")
+    # a = SVDImage("https://5.imimg.com/data5/SELLER/Default/2022/3/WG/RT/YU/60884299/hs-bmx-ibc.jpg")
+    # print(type(a.A))
+    # print(a.A.shape)
+    # plt.imshow(a.A)
+    # plt.show()

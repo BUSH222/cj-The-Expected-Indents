@@ -1,7 +1,9 @@
-import os
+import json
 import random
 import secrets
 import string
+
+import numpy as np
 
 from svd import SVDImage
 
@@ -28,13 +30,18 @@ class Game:
     """game class"""
 
     def __init__(self, lives=6):
-        self.word = self._get_random_word()
-        print(self.word)
+        self.word, self.imageURL = self._get_random_word()
+        # print(self.word)
+        self.total_lives = lives  # const
         self.lives = lives
         self.guessed_letters = set()
         self.size = 512
-        self.image = SVDImage(self.word, self.size)
+        self.image = SVDImage(self.imageURL, self.size)
         self.alive = True
+
+        self.punishment_mask = np.ones((self.size, self.size))
+        self.p = 0.2  # punishment rate
+        self.grid = 32  # pinishment grid size
 
         self.reward = 0
         # constants used to calculate reward
@@ -46,11 +53,13 @@ class Game:
         # but this is just a constant to calculate the reward
 
     def _get_random_word(self):
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(script_dir, 'nouns-clear.txt')
-        with open(file_path) as nounfile:
-            rword = random.choice(nounfile.readlines()).strip()
-        return rword
+        with open('words.json') as f:
+            data = json.load(f)
+        words = list(data.keys())
+        chosen_word = random.choice(words)
+        pictures = data[chosen_word]
+        chosen_picture = random.choice(pictures)
+        return chosen_word, chosen_picture
 
     def _construct_word_with_underscores(self):
         ret = ''
@@ -70,6 +79,17 @@ class Game:
         k = (self.u-self.m)/self.m
         coeff = self.m / (k-1)
         self.reward = int(coeff * (k**(2*x) - 1)) + 1
+
+    def _calculate_punishment(self):
+        subgrid_size = self.size // self.grid
+
+        for i in range(self.grid):
+            for j in range(self.grid):
+                if np.random.rand() < self.p:
+                    self.punishment_mask[
+                        i * subgrid_size: (i + 1) * subgrid_size,
+                        j * subgrid_size: (j + 1) * subgrid_size
+                    ] = 0
 
     def play(self, guessed_letter):
         """Play the game by guessing a letter.
@@ -91,6 +111,7 @@ class Game:
         else:
             feedback = False
             self.lives -= 1
+            self._calculate_punishment()
 
         if self.lives == 0:
             self.alive = False
@@ -111,3 +132,18 @@ class Game:
             'delta_lives': 0 if feedback else -1,  # 0 or -1
             'feedback': feedback,  # True if letter is in word, False otherwise
         }
+
+    def get_image(self):
+        """Get the image of the game."""
+        image = self.image.reduce(self.reward)
+        image[self.punishment_mask == 0] = 0
+        return image
+
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
+    game = Game()
+    print(game.image.A.shape)
+    plt.imshow(game.image.A)
+    plt.show()

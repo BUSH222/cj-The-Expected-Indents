@@ -19,6 +19,11 @@ As you progress through the game, the image becomes more or less scrambled based
 4. Connect everything together (server.py)
     - Get the game in working order by connecting all parts of the game (server.py)
 
+## Gameplay example
+
+https://github.com/BUSH222/cj-The-Expected-Indents/assets/58144503/1f0f4eb9-b270-4b00-99c1-998f52f6ba55
+
+Here the word "answer" is the solution, and as you can see the player guesses 3 letters incorrectly, making random squares disappear from the image! However, when the player guesses correctly, the image gets slowly more comprehensible.
 
 ## Instructions for use and Installation
 ### From scratch:

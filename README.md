@@ -1,5 +1,7 @@
 # Picturepuzzlers
 
+__Check out the [presentation](presentation.pdf) for this project as well!__
+
 ## Project overview
 Welcome to an exciting and interactive game experience! In this game, players are challenged to uncover a secret word by guessing its letters (Just like in Hangman!). But here's the twist: there's an intriguing twist! Alongside the letters, you'll also encounter a scrambled image that provides vital clues to help you crack the code.
 

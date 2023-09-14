@@ -70,7 +70,7 @@ Singular Value Decomposition (SVD) is a matrix factorization method used to deco
 
 - In SVD, matrix $A$ is decomposed into three matrices: $U$, $S$, and $V$. Here's the representation of this decomposition:
 
-  $$A_{n\times n} = U_{n\times n} \times S_{n\times n} \times V_{n\times n}$$
+  $$A_{n\times m} = U_{n\times n} \times S_{n\times m} \times V_{m\times m}$$
 
   - $U$ and $V$ are [unitary matrices](https://en.wikipedia.org/wiki/Unitary_matrix), and $S$ is a diagonal matrix.
   - The diagonal elements of matrix $S$ are referred to as the ["singular values"](https://en.wikipedia.org/wiki/Singular_value) of matrix $A."
